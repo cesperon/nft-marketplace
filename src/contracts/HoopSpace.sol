@@ -2,8 +2,8 @@
 pragma solidity ^0.8.10;
 
 contract HoopSpace {
-  string private name;
-  string private symbol;
+  string public name;
+  string public symbol;
 
   constructor() {
     name = "HoopSpace";
