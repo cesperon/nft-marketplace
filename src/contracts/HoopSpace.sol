@@ -6,6 +6,9 @@ contract HoopSpace is ERC721Connector {
   //store nfts in array
   string[] public hoopNfts;
 
+  //debug i
+  uint256[] public nftIds;
+
   mapping(string => bool) hoopNftExists;
 
   function mint(string memory _hoopNft) public {
@@ -14,8 +17,18 @@ contract HoopSpace is ERC721Connector {
     hoopNfts.push(_hoopNft);
     //create id for erc721 minting function using the index of HoopNfts
     uint256 tokenId = hoopNfts.length - 1;
+    //debug
+    nftIds.push(tokenId);
     _mint(msg.sender, tokenId);
     hoopNftExists[_hoopNft] = true;
+  }
+
+  function showNfts() public view returns (string[] memory) {
+    return hoopNfts;
+  }
+
+  function showNftIds() public view returns (uint256[] memory) {
+    return nftIds;
   }
 
   constructor() ERC721Connector("HoopSpace", "HSPACE", 4) {}
