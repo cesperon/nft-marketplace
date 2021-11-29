@@ -60,6 +60,14 @@ contract ERC721 {
     _;
   }
 
+  modifier ownerValidation(address _from, uint256 tokenId) {
+    require(
+      _tokenOwner[tokenId] == _from,
+      "sender of transaction is not the owner of the token"
+    );
+    _;
+  }
+
   //basic minting function
   //internal functions can only be access by contract or derived contracts
   //virtual functions allow for other functions to override original functionality
@@ -75,6 +83,36 @@ contract ERC721 {
     _OwnedTokensCount[tokenOwner] += 1;
 
     emit Transfer(address(0), tokenOwner, tokenId);
+  }
+
+  /// @notice Transfer ownership of an NFT -- THE CALLER IS RESPONSIBLE
+  ///  TO CONFIRM THAT `_to` IS CAPABLE OF RECEIVING NFTS OR ELSE
+  ///  THEY MAY BE PERMANENTLY LOST
+  /// @dev Throws unless `msg.sender` is the current owner, an authorized
+  ///  operator, or the approved address for this NFT. Throws if `_from` is
+  ///  not the current owner. Throws if `_to` is the zero address. Throws if
+  ///  `_tokenId` is not a valid NFT.
+  /// @param _from The current owner of the NFT
+  /// @param _to The new owner
+  /// @param _tokenId The NFT to transfer
+  function transferFrom(
+    address _from,
+    address _to,
+    uint256 _tokenId
+  ) external payable {
+    _transferFrom(_from, _to, _tokenId);
+  }
+
+  function _transferFrom(
+    address _from,
+    address _to,
+    uint256 _tokenId
+  ) internal ownerValidation(_from, _tokenId) addressNotNull(_to) {
+    _OwnedTokensCount[_from] -= 1;
+    _OwnedTokensCount[_to] += 1;
+    _tokenOwner[_tokenId] = _to;
+
+    emit Transfer(_from, _to, _tokenId);
   }
 
   /// @notice Count all NFTs assigned to an owner

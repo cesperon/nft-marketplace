@@ -5,10 +5,8 @@ import "./ERC721Connector.sol";
 contract HoopSpace is ERC721Connector {
   //store nfts in array
   string[] public hoopNfts;
-
   //debug i
   uint256[] public nftIds;
-
   mapping(string => bool) hoopNftExists;
 
   function mint(string memory _hoopNft) public {
