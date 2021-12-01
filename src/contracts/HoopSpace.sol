@@ -3,6 +3,8 @@ pragma solidity ^0.8.10;
 import "./ERC721Connector.sol";
 
 contract HoopSpace is ERC721Connector {
+  constructor() ERC721Connector("HoopSpace", "HSPACE", 4) {}
+
   //store nfts in array
   string[] public hoopNfts;
   //debug i
@@ -28,6 +30,4 @@ contract HoopSpace is ERC721Connector {
   function showNftIds() public view returns (uint256[] memory) {
     return nftIds;
   }
-
-  constructor() ERC721Connector("HoopSpace", "HSPACE", 4) {}
 }
